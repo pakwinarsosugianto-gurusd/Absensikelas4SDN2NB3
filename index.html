@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Absensi Digital Kelas 4 SD - UPTD SDN 2 NABANG BARU</title
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Fredoka & Plus Jakarta Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Canvas Confetti JS -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        sdRed: {
+                            50: '#fff1f2',
+                            100: '#ffe4e6',
+                            500: '#f43f5e',
+                            600: '#dc2626',
+                            700: '#b91c1c',
+                            800: '#991b1b',
+                        },
+                        sdGold: '#f59e0b',
+                    },
+                    fontFamily: {
+                        fredoka: ['Fredoka', 'sans-serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    animation: {
+                        'bounce-slow': 'bounce 2s infinite',
+                        'pulse-gentle': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 3s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #fcf8f8;
+            background-image: radial-gradient(#dc2626 0.75px, transparent 0.75px), radial-gradient(#dc2626 0.75px, #fcf8f8 0.75px);
+            background-size: 30px 30px;
+            background-position: 0 0, 15px 15px;
+        }
+        .heading-font {
+            font-family: 'Fredoka', cursive;
+        }
+        .custom-card-shadow {
+            box-shadow: 0 10px 25px -5px rgba(220, 38, 38, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+        }
+        .btn-bounce {
+            transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.15s ease;
+        }
+        .btn-bounce:active {
+            transform: scale(0.95);
+        }
+        .btn-bounce:hover {
+            transform: translateY(-3px);
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #dc2626;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between text-slate-800 antialiased selection:bg-sdRed-600 selection:text-white">
+
+    <header class="bg-gradient-to-r from-sdRed-700 via-sdRed-600 to-sdRed-700 text-white shadow-lg sticky top-0 z-40 border-b-4 border-yellow-400">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+            
+            <!-- School Identity & Logo Tut Wuri Handayani -->
+            <div class="flex items-center space-x-3">
+                <div class="bg-white p-1.5 rounded-full shadow-md border-2 border-yellow-300 transform hover:rotate-6 transition-transform">
+                    <svg class="w-10 h-10" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="50" cy="50" r="48" fill="#FFFFFF" stroke="#DC2626" stroke-width="4"/>
+                        <path d="M50 12 L78 30 L78 62 L50 88 L22 62 L22 30 Z" fill="#DC2626"/>
+                        <path d="M50 20 L70 34 L70 58 L50 78 L30 58 L30 34 Z" fill="#F59E0B"/>
+                        <path d="M35 55 C42 50, 48 53, 50 56 C52 53, 58 50, 65 55 L65 68 C58 63, 52 66, 50 69 C48 66, 42 63, 35 68 Z" fill="#FFFFFF"/>
+                        <path d="M50 28 L53 38 L62 34 L56 42 L65 48 L55 49 L58 58 L50 51 L42 58 L45 49 L35 48 L44 42 L38 34 L47 38 Z" fill="#FFFFFF"/>
+                    </svg>
+                </div>
+                <div>
+                    <span class="bg-yellow-400 text-sdRed-800 text-xs font-black uppercase px-2 py-0.5 rounded-full tracking-wider">Kelas 4 SD</span>
+                    <h1 class="heading-font text-lg md:text-xl font-bold leading-tight tracking-wide">UPTD SDN 2 NABANG BARU</h1>
+                    <p class="text-xs text-red-100 flex items-center gap-1">
+                        <i class="fa-solid fa-user-tie text-yellow-300"></i> Wali Kelas: WINARSO SUGIANTO, S.Pd.Gr
+                    </p>
+                </div>
+            </div>
+
+            <div class="flex items-center space-x-2">
+                <!-- Music Player Toggle Button -->
+                <button id="musicToggleBtn" onclick="toggleMusic()" class="px-3 py-1.5 bg-yellow-400 hover:bg-yellow-300 text-sdRed-900 rounded-xl font-bold text-xs shadow-md transition-all flex items-center gap-1.5 border border-yellow-200">
+                    <i id="musicIcon" class="fa-solid fa-music text-sdRed-700"></i>
+                    <span id="musicText">Musik: ON 🎵</span>
+                </button>
+
+                <!-- Mode Switcher Buttons (Siswa / Wali Kelas) -->
+                <div class="flex items-center space-x-1 bg-sdRed-800/60 p-1 rounded-xl border border-red-400/40">
+                    <button id="btnModeSiswa" onclick="switchTab('siswa')" class="px-3 py-1.5 rounded-lg text-xs md:text-sm font-bold transition-all bg-white text-sdRed-700 shadow-md flex items-center gap-1.5">
+                        <i class="fa-solid fa-child"></i>
+                        <span>Siswa</span>
+                    </button>
+                    <button id="btnModeGuru" onclick="switchTab('guru')" class="px-3 py-1.5 rounded-lg text-xs md:text-sm font-bold transition-all text-white hover:bg-sdRed-600 flex items-center gap-1.5">
+                        <i class="fa-solid fa-chalkboard-user"></i>
+                        <span>Wali Kelas</span>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- MAIN CONTAINER -->
+    <main class="max-w-5xl mx-auto px-4 py-6 flex-grow w-full">
+
+        <!-- ========================================================= -->
+        <!-- TAB 1: MODE SISWA (STUDENT VIEW) -->
+        <!-- ========================================================= -->
+        <div id="sectionSiswa" class="space-y-6">
+
+            <!-- Hero Banner -->
+            <div class="relative bg-gradient-to-r from-red-500 via-sdRed-600 to-red-600 rounded-3xl p-6 md:p-8 text-white shadow-xl overflow-hidden border-4 border-white">
+                <div class="absolute -right-10 -bottom-10 opacity-15 pointer-events-none">
+                    <i class="fa-solid fa-shapes text-9xl"></i>
+                </div>
+                <div class="absolute right-1/3 top-2 opacity-20 pointer-events-none text-yellow-300">
+                    <i class="fa-solid fa-star text-4xl animate-pulse"></i>
+                </div>
+
+                <div class="relative z-10 grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+                    
+                    <div class="md:col-span-8 space-y-3 text-center md:text-left">
+                        <div class="inline-flex items-center gap-2 bg-yellow-400 text-sdRed-900 px-3 py-1 rounded-full text-xs font-bold shadow-sm">
+                            <i class="fa-solid fa-calendar-check text-sdRed-700"></i>
+                            <span>Presensi Senin s.d. Sabtu</span>
+                        </div>
+                        <h2 class="heading-font text-2xl md:text-4xl font-black tracking-wide leading-tight">
+                            Halo Teman-Teman Kelas 4! 👋
+                        </h2>
+                        <p class="text-sm md:text-base text-red-50 font-medium leading-relaxed">
+                            Ayo catat kehadiranmu hari ini dengan jujur dan penuh semangat bersama Pak Winarso Sugianto!
+                        </p>
+                        
+                        <div class="pt-2 flex flex-wrap justify-center md:justify-start gap-2 text-xs font-semibold">
+                            <span id="currentDateBadge" class="bg-white/20 backdrop-blur-md px-3 py-1.5 rounded-lg border border-white/30 flex items-center gap-1.5">
+                                <i class="fa-regular fa-clock text-yellow-300"></i> Memuat tanggal...
+                            </span>
+                            <span class="bg-white/20 backdrop-blur-md px-3 py-1.5 rounded-lg border border-white/30 flex items-center gap-1.5">
+                                <i class="fa-solid fa-school text-yellow-300"></i> UPTD SDN 2 NABANG BARU
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Cartoon Characters -->
+                    <div class="md:col-span-4 flex justify-center items-center">
+                        <div class="flex items-end space-x-2 bg-white/10 backdrop-blur-sm p-4 rounded-2xl border border-white/20 shadow-inner">
+                            <div class="text-center group">
+                                <div class="w-16 h-16 md:w-20 md:h-20 bg-gradient-to-tr from-red-100 to-white rounded-full flex items-center justify-center border-4 border-yellow-300 shadow-md group-hover:scale-105 transition-transform relative">
+                                    <span class="text-3xl md:text-4xl">👦🏻</span>
+                                    <span class="absolute -top-1 -right-1 bg-sdRed-600 text-white text-[10px] px-1.5 py-0.5 rounded-full font-bold">SD</span>
+                                </div>
+                                <span class="text-xs font-bold block mt-1 text-yellow-200">Siswa SD</span>
+                            </div>
+
+                            <div class="text-center group">
+                                <div class="w-16 h-16 md:w-20 md:h-20 bg-gradient-to-tr from-red-100 to-white rounded-full flex items-center justify-center border-4 border-yellow-300 shadow-md group-hover:scale-105 transition-transform relative">
+                                    <span class="text-3xl md:text-4xl">👧🏻</span>
+                                    <span class="absolute -top-1 -right-1 bg-sdRed-600 text-white text-[10px] px-1.5 py-0.5 rounded-full font-bold">SD</span>
+                                </div>
+                                <span class="text-xs font-bold block mt-1 text-yellow-200">Siswi SD</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                
+                <!-- Tujuan Absensi -->
+                <div class="bg-white rounded-2xl p-5 border-2 border-sdRed-100 custom-card-shadow relative overflow-hidden">
+                    <div class="w-2 h-full bg-sdRed-600 absolute left-0 top-0"></div>
+                    <div class="flex items-center space-x-3 mb-3">
+                        <div class="w-10 h-10 rounded-xl bg-red-100 text-sdRed-600 flex items-center justify-center font-bold text-lg">
+                            <i class="fa-solid fa-bullseye"></i>
+                        </div>
+                        <div>
+                            <h3 class="heading-font font-bold text-sdRed-700 text-lg">Tujuan Absensi Digital</h3>
+                            <p class="text-xs text-gray-500">Mengapa penting mengisi presensi?</p>
+                        </div>
+                    </div>
+                    <ul class="text-xs md:text-sm text-gray-600 space-y-2">
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-circle-check text-green-500 mt-1"></i>
+                            <span><strong>Kedisiplinan Mandiri:</strong> Melatih rasa tanggung jawab setiap hari sekolah.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-circle-check text-green-500 mt-1"></i>
+                            <span><strong>Pemantauan Kesehatan:</strong> Memudahkan Pak Winarso memantau siswa yang sakit.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-circle-check text-green-500 mt-1"></i>
+                            <span><strong>Komunikasi Cepat:</strong> Menjalin silaturahmi dan perhatian antar warga kelas.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Pesan dari Wali Kelas -->
+                <div class="bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl p-5 border-2 border-amber-200 custom-card-shadow relative">
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 rounded-xl bg-amber-200 text-amber-800 flex items-center justify-center font-bold text-lg shadow-sm">
+                                <i class="fa-solid fa-envelope-open-text"></i>
+                            </div>
+                            <div>
+                                <h3 class="heading-font font-bold text-amber-900 text-lg">Pesan Dari Wali Kelas</h3>
+                                <p class="text-xs text-amber-700 font-semibold" id="teacherNameDisplay">WINARSO SUGIANTO, S.Pd.Gr</p>
+                            </div>
+                        </div>
+                        <span class="animate-bounce-slow text-xl">📢</span>
+                    </div>
+                    <div class="bg-white/80 rounded-xl p-3.5 border border-amber-200/60 shadow-sm text-xs md:text-sm text-gray-700 italic">
+                        <p id="teacherMessageText">
+                            "Selamat pagi anak-anak hebat Kelas 4 UPTD SDN 2 NABANG BARU! Semangat belajar hari ini, selalu jaga kesehatan dan patuhi protokol kebersihan!"
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="bg-white rounded-3xl p-6 md:p-8 border-2 border-sdRed-200 custom-card-shadow">
+                
+                <div class="border-b border-gray-100 pb-4 mb-6 flex flex-wrap items-center justify-between gap-3">
+                    <div>
+                        <h2 class="heading-font text-xl md:text-2xl font-bold text-sdRed-700 flex items-center gap-2">
+                            <i class="fa-solid fa-pen-to-square text-sdRed-600"></i>
+                            Form Kehadiran Siswa
+                        </h2>
+                        <p class="text-xs text-gray-500 mt-0.5">Silakan pilih hari, ketik nama murid, dan beri tanda centang (v) atau silang (x)</p>
+                    </div>
+
+                    <!-- Day Selector Pills (Senin - Sabtu) -->
+                    <div class="w-full md:w-auto overflow-x-auto pb-1 md:pb-0">
+                        <div class="flex space-x-1 bg-gray-100 p-1 rounded-xl" id="dayPillsContainer">
+                            <button type="button" onclick="playSfx('click'); selectFormDay('Senin')" class="day-btn px-3 py-1.5 rounded-lg text-xs font-bold transition-all text-gray-600 hover:text-sdRed-600" data-day="Senin">Senin</button>
+                            <button type="button" onclick="playSfx('click'); selectFormDay('Selasa')" class="day-btn px-3 py-1.5 rounded-lg text-xs font-bold transition-all text-gray-600 hover:text-sdRed-600" data-day="Selasa">Selasa</button>
+                            <button type="button" onclick="playSfx('click'); selectFormDay('Rabu')" class="day-btn px-3 py-1.5 rounded-lg text-xs font-bold transition-all text-gray-600 hover:text-sdRed-600" data-day="Rabu">Rabu</button>
+                            <button type="button" onclick="playSfx('click'); selectFormDay('Kamis')" class="day-btn px-3 py-1.5 rounded-lg text-xs font-bold transition-all text-gray-600 hover:text-sdRed-600" data-day="Kamis">Kamis</button>
+                            <button type="button" onclick="playSfx('click'); selectFormDay('Jumat')" class="day-btn px-3 py-1.5 rounded-lg text-xs font-bold transition-all text-gray-600 hover:text-sdRed-600" data-day="Jumat">Jumat</button>
+                            <button type="button" onclick="playSfx('click'); selectFormDay('Sabtu')" class="day-btn px-3 py-1.5 rounded-lg text-xs font-bold transition-all text-gray-600 hover:text-sdRed-600" data-day="Sabtu">Sabtu</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Attendance Form -->
+                <form id="attendanceForm" onsubmit="handleAttendanceSubmit(event)" class="space-y-6">
+                    
+                    <input type="hidden" id="selectedDayInput" value="Senin">
+
+                    <!-- Field 1: Input Nama Siswa (Manual Text) -->
+                    <div class="space-y-2">
+                        <label for="studentInput" class="block text-xs md:text-sm font-bold text-gray-700 uppercase tracking-wider">
+                            1. Nama Lengkap Murid <span class="text-sdRed-600">*</span>
+                        </label>
+                        <div class="relative">
+                            <input type="text" id="studentInput" list="savedStudentNames" required placeholder="Ketik nama lengkap siswa di sini..." class="w-full pl-11 pr-4 py-3 bg-red-50/50 border-2 border-red-100 rounded-xl font-semibold text-gray-800 text-sm md:text-base focus:ring-4 focus:ring-red-200 focus:border-sdRed-600 outline-none transition-all">
+                            <datalist id="savedStudentNames"></datalist>
+                            <div class="absolute left-3.5 top-1/2 -translate-y-1/2 text-sdRed-600 text-lg">
+                                <i class="fa-solid fa-user-graduate"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Field 2: Status Kehadiran -->
+                    <div class="space-y-2">
+                        <label class="block text-xs md:text-sm font-bold text-gray-700 uppercase tracking-wider">
+                            2. Status Kehadiran Hari Ini <span class="text-sdRed-600">*</span>
+                        </label>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            
+                            <!-- HADIR (Centang / ✔️) -->
+                            <label class="relative cursor-pointer group" onclick="playSfx('click')">
+                                <input type="radio" name="attendanceStatus" value="Hadir" required onclick="toggleAbsenceFields(false)" class="peer sr-only">
+                                <div class="p-5 rounded-2xl border-3 border-gray-200 bg-white peer-checked:border-emerald-500 peer-checked:bg-emerald-50/60 peer-checked:shadow-md transition-all group-hover:border-emerald-300 flex items-center space-x-4">
+                                    <div class="w-14 h-14 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-3xl font-black shadow-inner peer-checked:bg-emerald-500 peer-checked:text-white transition-colors">
+                                        ✓
+                                    </div>
+                                    <div>
+                                        <span class="heading-font text-lg font-bold text-emerald-700 block">SAYA HADIR</span>
+                                        <span class="text-xs text-gray-500">Klik centang jika siap belajar di sekolah!</span>
+                                    </div>
+                                </div>
+                            </label>
+
+                            <!-- TIDAK HADIR (Silang / ❌) -->
+                            <label class="relative cursor-pointer group" onclick="playSfx('click')">
+                                <input type="radio" name="attendanceStatus" value="Tidak Hadir" onclick="toggleAbsenceFields(true)" class="peer sr-only">
+                                <div class="p-5 rounded-2xl border-3 border-gray-200 bg-white peer-checked:border-sdRed-500 peer-checked:bg-red-50/60 peer-checked:shadow-md transition-all group-hover:border-red-300 flex items-center space-x-4">
+                                    <div class="w-14 h-14 rounded-2xl bg-red-100 text-sdRed-600 flex items-center justify-center text-3xl font-black shadow-inner peer-checked:bg-sdRed-600 peer-checked:text-white transition-colors">
+                                        ✗
+                                    </div>
+                                    <div>
+                                        <span class="heading-font text-lg font-bold text-sdRed-700 block">TIDAK HADIR</span>
+                                        <span class="text-xs text-gray-500">Klik tanda X jika berhalangan masuk sekolah</span>
+                                    </div>
+                                </div>
+                            </label>
+
+                        </div>
+                    </div>
+
+                    <!-- Field 3: Dynamic Reason Section -->
+                    <div id="absenceReasonSection" class="hidden space-y-4 p-5 bg-red-50/70 border-2 border-red-200 rounded-2xl transition-all">
+                        
+                        <div class="flex items-center space-x-2 text-sdRed-700 font-bold text-sm">
+                            <i class="fa-solid fa-circle-info"></i>
+                            <span>Kolom Alasan Tidak Hadir</span>
+                        </div>
+
+                        <div class="grid grid-cols-3 gap-3">
+                            <label class="cursor-pointer" onclick="playSfx('click')">
+                                <input type="radio" name="absenceCategory" value="Sakit" checked class="peer sr-only">
+                                <div class="p-3 text-center rounded-xl bg-white border-2 border-gray-200 peer-checked:border-sdRed-600 peer-checked:bg-sdRed-600 peer-checked:text-white font-bold text-xs md:text-sm transition-all shadow-sm">
+                                    🤒 Sakit
+                                </div>
+                            </label>
+                            <label class="cursor-pointer" onclick="playSfx('click')">
+                                <input type="radio" name="absenceCategory" value="Izin" class="peer sr-only">
+                                <div class="p-3 text-center rounded-xl bg-white border-2 border-gray-200 peer-checked:border-sdRed-600 peer-checked:bg-sdRed-600 peer-checked:text-white font-bold text-xs md:text-sm transition-all shadow-sm">
+                                    ✉ Izin
+                                </div>
+                            </label>
+                            <label class="cursor-pointer" onclick="playSfx('click')">
+                                <input type="radio" name="absenceCategory" value="Alpa" class="peer sr-only">
+                                <div class="p-3 text-center rounded-xl bg-white border-2 border-gray-200 peer-checked:border-sdRed-600 peer-checked:bg-sdRed-600 peer-checked:text-white font-bold text-xs md:text-sm transition-all shadow-sm">
+                                    ❓ Lainnya
+                                </div>
+                            </label>
+                        </div>
+
+                        <div>
+                            <label for="absenceNote" class="block text-xs font-bold text-gray-700 mb-1">
+                                Tuliskan Alasan / Keterangan Singkat:
+                            </label>
+                            <textarea id="absenceNote" rows="2" placeholder="Contoh: Sakit demam / Ada keperluan keluarga..." class="w-full p-3 bg-white border border-red-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-sdRed-500"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="pt-2">
+                        <button type="submit" class="btn-bounce w-full bg-gradient-to-r from-sdRed-600 to-red-700 hover:from-sdRed-700 hover:to-sdRed-800 text-white font-black py-4 rounded-2xl shadow-lg hover:shadow-xl text-base md:text-lg flex items-center justify-center gap-2 border-2 border-yellow-300 tracking-wide">
+                            <i class="fa-solid fa-paper-plane text-yellow-300"></i>
+                            <span>KIRIM ABSENSI SEKARANG</span>
+                        </button>
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+        <!-- ========================================================= -->
+        <!-- TAB 2: MODE WALI KELAS (TEACHER DASHBOARD) -->
+        <!-- ========================================================= -->
+        <div id="sectionGuru" class="hidden space-y-6">
+
+            <!-- Teacher Header Card -->
+            <div class="bg-gradient-to-r from-slate-800 to-slate-900 rounded-3xl p-6 text-white shadow-xl border-4 border-yellow-400">
+                <div class="flex flex-wrap items-center justify-between gap-4">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-14 h-14 bg-yellow-400 text-slate-900 rounded-2xl flex items-center justify-center text-2xl font-black shadow-md">
+                            <i class="fa-solid fa-clipboard-user"></i>
+                        </div>
+                        <div>
+                            <span class="bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">Panel Pengelola</span>
+                            <h2 class="heading-font text-xl md:text-2xl font-bold">Rekapitulasi Kehadiran Kelas 4</h2>
+                            <p class="text-xs text-slate-300">UPTD SDN 2 NABANG BARU — Wali Kelas: WINARSO SUGIANTO, S.Pd.Gr</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center space-x-2">
+                        <button onclick="playSfx('click'); exportToCSV()" class="btn-bounce bg-emerald-600 hover:bg-emerald-700 text-white px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 shadow">
+                            <i class="fa-solid fa-file-excel"></i>
+                            <span>Unduh Excel (CSV)</span>
+                        </button>
+                        <button onclick="playSfx('click'); resetData()" class="btn-bounce bg-red-600 hover:bg-red-700 text-white px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 shadow">
+                            <i class="fa-solid fa-rotate-left"></i>
+                            <span>Reset Data</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Summary Cards -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="bg-white p-4 rounded-2xl border-2 border-emerald-100 shadow-sm flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-lg font-bold">✓</div>
+                    <div>
+                        <span class="text-xs text-gray-500 font-bold block">Total Hadir</span>
+                        <span id="statHadir" class="heading-font text-xl font-bold text-emerald-600">0</span>
+                    </div>
+                </div>
+
+                <div class="bg-white p-4 rounded-2xl border-2 border-amber-100 shadow-sm flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center text-lg font-bold">🤒</div>
+                    <div>
+                        <span class="text-xs text-gray-500 font-bold block">Sakit</span>
+                        <span id="statSakit" class="heading-font text-xl font-bold text-amber-600">0</span>
+                    </div>
+                </div>
+
+                <div class="bg-white p-4 rounded-2xl border-2 border-blue-100 shadow-sm flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center text-lg font-bold">✉️</div>
+                    <div>
+                        <span class="text-xs text-gray-500 font-bold block">Izin</span>
+                        <span id="statIzin" class="heading-font text-xl font-bold text-blue-600">0</span>
+                    </div>
+                </div>
+
+                <div class="bg-white p-4 rounded-2xl border-2 border-red-100 shadow-sm flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-xl bg-red-100 text-sdRed-600 flex items-center justify-center text-lg font-bold">❓</div>
+                    <div>
+                        <span class="text-xs text-gray-500 font-bold block">Lainnya</span>
+                        <span id="statAlpa" class="heading-font text-xl font-bold text-sdRed-600">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Teacher Control: Edit Announcement -->
+            <div class="bg-white rounded-2xl p-5 border border-gray-200 shadow-sm space-y-3">
+                <h3 class="heading-font font-bold text-gray-800 text-base flex items-center gap-2">
+                    <i class="fa-solid fa-bullhorn text-sdRed-600"></i>
+                    Atur Pesan Pak Winarso untuk Murid Kelas 4
+                </h3>
+                <div class="flex gap-2">
+                    <input type="text" id="inputTeacherMessage" placeholder="Tuliskan pesan motivasi harian di sini..." class="flex-grow p-2.5 border border-gray-300 rounded-xl text-sm outline-none focus:border-sdRed-500">
+                    <button onclick="playSfx('click'); updateTeacherMessage()" class="bg-sdRed-600 hover:bg-sdRed-700 text-white px-4 py-2.5 rounded-xl font-bold text-xs">Simpan Pesan</button>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl border border-gray-200 custom-card-shadow overflow-hidden">
+                <div class="p-4 bg-gray-50 border-b border-gray-200 flex flex-wrap items-center justify-between gap-3">
+                    <h3 class="heading-font font-bold text-gray-800 text-base">Daftar Kehadiran Siswa</h3>
+                    
+                    <div class="flex items-center space-x-2">
+                        <span class="text-xs font-bold text-gray-500">Filter Hari:</span>
+                        <select id="filterDaySelect" onchange="playSfx('click'); renderAttendanceTable()" class="p-1.5 bg-white border border-gray-300 rounded-lg text-xs font-bold text-gray-700 outline-none">
+                            <option value="Semua">Semua Hari (Senin-Sabtu)</option>
+                            <option value="Senin">Senin</option>
+                            <option value="Selasa">Selasa</option>
+                            <option value="Rabu">Rabu</option>
+                            <option value="Kamis">Kamis</option>
+                            <option value="Jumat">Jumat</option>
+                            <option value="Sabtu">Sabtu</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs md:text-sm">
+                        <thead class="bg-slate-100 text-slate-700 uppercase text-[11px] font-bold tracking-wider">
+                            <tr>
+                                <th class="p-3.5">Hari</th>
+                                <th class="p-3.5">Nama Siswa</th>
+                                <th class="p-3.5">Status</th>
+                                <th class="p-3.5">Detail Alasan / Keterangan</th>
+                                <th class="p-3.5 text-center">Waktu Pengisian</th>
+                                <th class="p-3.5 text-center">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="attendanceTableBody" class="divide-y divide-gray-100 font-medium text-gray-700">
+                            <!-- JS Populated -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <footer class="bg-white border-t border-gray-200 py-4 mt-8">
+        <div class="max-w-6xl mx-auto px-4 text-center text-xs text-gray-500 flex flex-wrap items-center justify-between gap-2">
+            <p>© 2026 Absensi Digital Kelas 4 SD - UPTD SDN 2 NABANG BARU 🇮🇩</p>
+            <p class="font-semibold text-sdRed-600 flex items-center gap-1">
+                <i class="fa-solid fa-heart"></i> Tut Wuri Handayani
+            </p>
+        </div>
+    </footer>
+
+    <!-- MODAL POPUP -->
+    <div id="feedbackModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 text-center shadow-2xl border-4 border-yellow-400 relative transform transition-all">
+            <button onclick="playSfx('click'); closeModal()" class="absolute top-3 right-3 text-gray-400 hover:text-gray-600 w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center font-bold">
+                ✕
+            </button>
+
+            <div id="modalBody" class="space-y-4">
+                <!-- JS Inject Content -->
+            </div>
+
+            <div class="pt-4">
+                <button onclick="playSfx('click'); closeModal()" class="btn-bounce w-full bg-sdRed-600 hover:bg-sdRed-700 text-white font-bold py-3 rounded-xl shadow">
+                    Mengerti & Tutup
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // WEB AUDIO API SYNTHESIZER (MUSIC & SFX)
+        let audioCtx = null;
+        let isMusicPlaying = false;
+        let musicInterval = null;
+
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+        }
+
+        // Cheerful Background Music Melody
+        const bgmNotes = [261.63, 293.66, 329.63, 349.23, 392.00, 440.00, 493.88, 523.25];
+        const bgmSequence = [
+            { note: 0, dur: 0.25 }, { note: 2, dur: 0.25 }, { note: 4, dur: 0.25 }, { note: 7, dur: 0.4 },
+            { note: 4, dur: 0.25 }, { note: 7, dur: 0.4 }, { note: 5, dur: 0.25 }, { note: 4, dur: 0.25 },
+            { note: 2, dur: 0.25 }, { note: 4, dur: 0.4 }, { note: 2, dur: 0.25 }, { note: 0, dur: 0.5 }
+        ];
+        let seqIndex = 0;
+
+        function toggleMusic() {
+            initAudio();
+            const btn = document.getElementById('musicToggleBtn');
+            const icon = document.getElementById('musicIcon');
+            const text = document.getElementById('musicText');
+
+            if (isMusicPlaying) {
+                isMusicPlaying = false;
+                clearInterval(musicInterval);
+                btn.className = "px-3 py-1.5 bg-white/20 hover:bg-white/30 text-white rounded-xl font-bold text-xs shadow-md transition-all flex items-center gap-1.5 border border-white/30";
+                icon.className = "fa-solid fa-volume-xmark";
+                text.innerText = "Musik: OFF";
+            } else {
+                isMusicPlaying = true;
+                btn.className = "px-3 py-1.5 bg-yellow-400 text-sdRed-900 rounded-xl font-bold text-xs shadow-md transition-all flex items-center gap-1.5 border border-yellow-200 animate-pulse";
+                icon.className = "fa-solid fa-music text-sdRed-700";
+                text.innerText = "Musik: ON 🎵";
+                
+                playBgmStep();
+                musicInterval = setInterval(playBgmStep, 380);
+            }
+        }
+
+        function playBgmStep() {
+            if (!isMusicPlaying || !audioCtx) return;
+            try {
+                const item = bgmSequence[seqIndex];
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(bgmNotes[item.note], audioCtx.currentTime);
+                
+                gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + item.dur);
+                
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                
+                osc.start();
+                osc.stop(audioCtx.currentTime + item.dur);
+                
+                seqIndex = (seqIndex + 1) % bgmSequence.length;
+            } catch(e) {}
+        }
+
+        // Sound Effects Engine
+        function playSfx(type) {
+            initAudio();
+            if (!audioCtx) return;
+            try {
+                if (type === 'click') {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(450, audioCtx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(850, audioCtx.currentTime + 0.08);
+                    gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.08);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.08);
+                } else if (type === 'success') {
+                    const now = audioCtx.currentTime;
+                    [523.25, 659.25, 783.99, 1046.50].forEach((freq, i) => {
+                        const o = audioCtx.createOscillator();
+                        const g = audioCtx.createGain();
+                        o.type = 'triangle';
+                        o.frequency.value = freq;
+                        g.gain.setValueAtTime(0.12, now + i * 0.09);
+                        g.gain.exponentialRampToValueAtTime(0.001, now + i * 0.09 + 0.28);
+                        o.connect(g);
+                        g.connect(audioCtx.destination);
+                        o.start(now + i * 0.09);
+                        o.stop(now + i * 0.09 + 0.28);
+                    });
+                } else if (type === 'sad') {
+                    const now = audioCtx.currentTime;
+                    [440, 392, 349].forEach((freq, i) => {
+                        const o = audioCtx.createOscillator();
+                        const g = audioCtx.createGain();
+                        o.type = 'sine';
+                        o.frequency.value = freq;
+                        g.gain.setValueAtTime(0.1, now + i * 0.14);
+                        g.gain.exponentialRampToValueAtTime(0.001, now + i * 0.14 + 0.35);
+                        o.connect(g);
+                        g.connect(audioCtx.destination);
+                        o.start(now + i * 0.14);
+                        o.stop(now + i * 0.14 + 0.35);
+                    });
+                }
+            } catch(e) {}
+        }
+    </script>
+
+    <script>
+        // State Storage
+        let attendanceRecords = JSON.parse(localStorage.getItem('sd_absensi_records_nabang')) || [];
+        let savedStudentNames = JSON.parse(localStorage.getItem('sd_saved_student_names')) || [];
+        let teacherMessage = localStorage.getItem('sd_teacher_msg_nabang') || "Selamat pagi anak-anak hebat Kelas 4 UPTD SDN 2 NABANG BARU! Semangat belajar hari ini, selalu jaga kesehatan dan patuhi protokol kebersihan!";
+        let currentFormDay = "Senin";
+
+        const daysArray = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+
+        window.onload = function() {
+            initSavedNamesDatalist();
+            initDateAndDay();
+            renderAttendanceTable();
+            updateStats();
+            document.getElementById('teacherMessageText').innerText = `"${teacherMessage}"`;
+            document.getElementById('inputTeacherMessage').value = teacherMessage;
+
+            // Auto-start music audio context on first click
+            document.body.addEventListener('click', function audioUnlock() {
+                initAudio();
+                document.body.removeEventListener('click', audioUnlock);
+            }, { once: true });
+        };
+
+        // Populate Datalist for autocomplete suggestion
+        function initSavedNamesDatalist() {
+            const datalist = document.getElementById('savedStudentNames');
+            datalist.innerHTML = '';
+            savedStudentNames.forEach(name => {
+                const option = document.createElement('option');
+                option.value = name;
+                datalist.appendChild(option);
+            });
+        }
+
+        // Add Name to Datalist Cache
+        function saveStudentNameToList(name) {
+            if (name && !savedStudentNames.includes(name)) {
+                savedStudentNames.push(name);
+                localStorage.setItem('sd_saved_student_names', JSON.stringify(savedStudentNames));
+                initSavedNamesDatalist();
+            }
+        }
+
+        // Initialize Date & Active Day
+        function initDateAndDay() {
+            const now = new Date();
+            const dayName = daysArray[now.getDay()];
+            const dateStr = now.toLocaleDateString('id-ID', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+            });
+
+            document.getElementById('currentDateBadge').innerHTML = `<i class="fa-regular fa-calendar-check text-yellow-300"></i> ${dayName}, ${dateStr}`;
+
+            if (dayName !== "Minggu") {
+                selectFormDay(dayName);
+            } else {
+                selectFormDay("Senin");
+            }
+        }
+
+        // Switch Tab View (Siswa vs Guru)
+        function switchTab(tab) {
+            playSfx('click');
+            const btnSiswa = document.getElementById('btnModeSiswa');
+            const btnGuru = document.getElementById('btnModeGuru');
+            const secSiswa = document.getElementById('sectionSiswa');
+            const secGuru = document.getElementById('sectionGuru');
+
+            if (tab === 'siswa') {
+                secSiswa.classList.remove('hidden');
+                secGuru.classList.add('hidden');
+                btnSiswa.className = "px-3 py-1.5 rounded-lg text-xs md:text-sm font-bold transition-all bg-white text-sdRed-700 shadow-md flex items-center gap-1.5";
+                btnGuru.className = "px-3 py-1.5 rounded-lg text-xs md:text-sm font-bold transition-all text-white hover:bg-sdRed-600 flex items-center gap-1.5";
+            } else {
+                secSiswa.classList.add('hidden');
+                secGuru.classList.remove('hidden');
+                btnGuru.className = "px-3 py-1.5 rounded-lg text-xs md:text-sm font-bold transition-all bg-white text-sdRed-700 shadow-md flex items-center gap-1.5";
+                btnSiswa.className = "px-3 py-1.5 rounded-lg text-xs md:text-sm font-bold transition-all text-white hover:bg-sdRed-600 flex items-center gap-1.5";
+            }
+        }
+
+        // Select Day Pills
+        function selectFormDay(day) {
+            currentFormDay = day;
+            document.getElementById('selectedDayInput').value = day;
+
+            const buttons = document.querySelectorAll('#dayPillsContainer .day-btn');
+            buttons.forEach(btn => {
+                if (btn.getAttribute('data-day') === day) {
+                    btn.className = "day-btn px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-sdRed-600 text-white shadow-sm";
+                } else {
+                    btn.className = "day-btn px-3 py-1.5 rounded-lg text-xs font-bold transition-all text-gray-600 hover:text-sdRed-600 hover:bg-gray-200";
+                }
+            });
+        }
+
+        function toggleAbsenceFields(isAbsent) {
+            const reasonSec = document.getElementById('absenceReasonSection');
+            if (isAbsent) {
+                reasonSec.classList.remove('hidden');
+            } else {
+                reasonSec.classList.add('hidden');
+            }
+        }
+
+        function handleAttendanceSubmit(event) {
+            event.preventDefault();
+
+            const studentName = document.getElementById('studentInput').value.trim();
+            const day = document.getElementById('selectedDayInput').value;
+            const statusRadio = document.querySelector('input[name="attendanceStatus"]:checked');
+
+            if (!studentName) {
+                alertModal("⚠️ Mohon Ketikkan Nama Siswa Terlebih Dahulu!");
+                return;
+            }
+
+            if (!statusRadio) {
+                alertModal("⚠️ Mohon Pilih Status Kehadiran (Hadir atau Tidak Hadir)!");
+                return;
+            }
+
+            saveStudentNameToList(studentName);
+
+            const status = statusRadio.value;
+            let category = "-";
+            let note = "-";
+
+            if (status === "Tidak Hadir") {
+                const catRadio = document.querySelector('input[name="absenceCategory"]:checked');
+                category = catRadio ? catRadio.value : "Izin";
+                note = document.getElementById('absenceNote').value.trim() || "Tidak ada keterangan tambahan";
+            }
+
+            const timeNow = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+
+            const newRecord = {
+                id: Date.now(),
+                studentName,
+                day,
+                status,
+                category,
+                note,
+                time: timeNow,
+                timestamp: new Date().toISOString()
+            };
+
+            attendanceRecords.unshift(newRecord);
+            localStorage.setItem('sd_absensi_records_nabang', JSON.stringify(attendanceRecords));
+
+            if (status === "Hadir") {
+                playSfx('success');
+                confetti({
+                    particleCount: 100,
+                    spread: 70,
+                    origin: { y: 0.6 }
+                });
+            } else {
+                playSfx('sad');
+            }
+
+            showFeedbackModal(newRecord);
+
+            document.getElementById('attendanceForm').reset();
+            toggleAbsenceFields(false);
+            
+            renderAttendanceTable();
+            updateStats();
+        }
+
+        // Show Feedback Modal
+        function showFeedbackModal(record) {
+            const modalBody = document.getElementById('modalBody');
+
+            if (record.status === "Hadir") {
+                modalBody.innerHTML = `
+                    <div class="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center text-4xl mx-auto shadow-inner animate-bounce">
+                        🌟
+                    </div>
+                    <h3 class="heading-font text-2xl font-bold text-emerald-700">Terima Kasih, ${record.studentName}!</h3>
+                    <p class="text-sm text-gray-600 leading-relaxed">
+                        Kehadiranmu untuk hari <span class="font-bold text-sdRed-600">${record.day}</span> di <span class="font-bold">UPTD SDN 2 NABANG BARU</span> telah dicatat!
+                    </p>
+                    <div class="bg-emerald-50 border border-emerald-200 rounded-2xl p-4 text-xs text-emerald-800 space-y-1">
+                        <p class="font-bold">💪 Pesan Semangat Dari Pak Winarso Sugianto:</p>
+                        <p>"Selamat belajar dengan antusias! Patuhi aturan kelas dan jadilah murid yang membanggakan!"</p>
+                    </div>
+                `;
+            } else {
+                if (record.category === "Sakit") {
+                    modalBody.innerHTML = `
+                        <div class="w-20 h-20 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center text-4xl mx-auto shadow-inner animate-pulse">
+                            🤒
+                        </div>
+                        <h3 class="heading-font text-2xl font-bold text-amber-800">Lekas Sembuh Ya, ${record.studentName}! 💐</h3>
+                        <p class="text-sm text-gray-600 leading-relaxed">
+                            Informasi bahwa kamu sedang sakit pada hari <span class="font-bold text-sdRed-600">${record.day}</span> telah diterima Pak Winarso Sugianto.
+                        </p>
+                        
+                        <div class="bg-gradient-to-br from-red-50 to-amber-50 border-2 border-amber-200 rounded-2xl p-4 text-left text-xs space-y-2 text-gray-700">
+                            <div class="flex items-center space-x-2 text-sdRed-700 font-bold">
+                                <i class="fa-solid fa-heart-pulse text-sm"></i>
+                                <span>Saran Perawatan Dari Pak Winarso Sugianto, S.Pd.Gr:</span>
+                            </div>
+                            <ul class="list-disc list-inside space-y-1 text-gray-600">
+                                <li>Istirahat yang cukup dan perbanyak minum air putih hangat.</li>
+                                <li>Minum obat teratur sesuai petunjuk dokter/orang tua.</li>
+                                <li>Semoga cepat pulih dan bisa kembali belajar bersama di UPTD SDN 2 NABANG BARU! ❤️</li>
+                            </ul>
+                        </div>
+                    `;
+                } else {
+                    modalBody.innerHTML = `
+                        <div class="w-20 h-20 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-4xl mx-auto shadow-inner">
+                            ✉️
+                        </div>
+                        <h3 class="heading-font text-2xl font-bold text-blue-800">Izin Dicatat!</h3>
+                        <p class="text-sm text-gray-600 leading-relaxed">
+                            Permohonan izin <span class="font-bold">${record.studentName}</span> pada hari <span class="font-bold text-sdRed-600">${record.day}</span> telah tersimpan.
+                        </p>
+                        <div class="bg-blue-50 border border-blue-200 rounded-2xl p-4 text-xs text-blue-800">
+                            <p class="font-bold">📘 Catatan Guru:</p>
+                            <p>Jangan lupa menanyakan tugas atau materi pelajaran hari ini kepada teman sekelas ya!</p>
+                        </div>
+                    `;
+                }
+            }
+
+            document.getElementById('feedbackModal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('feedbackModal').classList.add('hidden');
+        }
+
+        function renderAttendanceTable() {
+            const tbody = document.getElementById('attendanceTableBody');
+            const filterDay = document.getElementById('filterDaySelect').value;
+
+            tbody.innerHTML = '';
+
+            let filtered = attendanceRecords;
+            if (filterDay !== "Semua") {
+                filtered = attendanceRecords.filter(r => r.day === filterDay);
+            }
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="6" class="text-center py-8 text-gray-400 font-normal">
+                            <i class="fa-solid fa-folder-open text-3xl mb-2 block"></i>
+                            Belum ada data absensi yang tercatat.
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            filtered.forEach(item => {
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-50 transition-colors";
+
+                let statusBadge = '';
+                if (item.status === 'Hadir') {
+                    statusBadge = `<span class="bg-emerald-100 text-emerald-700 px-2.5 py-1 rounded-full font-bold text-[11px] flex items-center gap-1 w-max"><i class="fa-solid fa-check"></i> Hadir</span>`;
+                } else if (item.category === 'Sakit') {
+                    statusBadge = `<span class="bg-amber-100 text-amber-700 px-2.5 py-1 rounded-full font-bold text-[11px] flex items-center gap-1 w-max"><i class="fa-solid fa-temperature-three-quarters"></i> Sakit</span>`;
+                } else if (item.category === 'Izin') {
+                    statusBadge = `<span class="bg-blue-100 text-blue-700 px-2.5 py-1 rounded-full font-bold text-[11px] flex items-center gap-1 w-max"><i class="fa-solid fa-envelope"></i> Izin</span>`;
+                } else {
+                    statusBadge = `<span class="bg-red-100 text-sdRed-700 px-2.5 py-1 rounded-full font-bold text-[11px] flex items-center gap-1 w-max"><i class="fa-solid fa-circle-question"></i> Lainnya</span>`;
+                }
+
+                tr.innerHTML = `
+                    <td class="p-3.5 font-bold text-sdRed-700">${item.day}</td>
+                    <td class="p-3.5 font-bold text-slate-800">${item.studentName}</td>
+                    <td class="p-3.5">${statusBadge}</td>
+                    <td class="p-3.5 text-gray-600 max-w-xs truncate">${item.note || '-'}</td>
+                    <td class="p-3.5 text-center text-gray-400 text-xs">${item.time || '-'}</td>
+                    <td class="p-3.5 text-center">
+                        <button onclick="playSfx('click'); deleteRecord(${item.id})" class="text-red-400 hover:text-red-600 p-1 rounded transition-colors" title="Hapus Record">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function updateStats() {
+            const totalHadir = attendanceRecords.filter(r => r.status === 'Hadir').length;
+            const totalSakit = attendanceRecords.filter(r => r.category === 'Sakit').length;
+            const totalIzin = attendanceRecords.filter(r => r.category === 'Izin').length;
+            const totalAlpa = attendanceRecords.filter(r => r.category === 'Alpa').length;
+
+            document.getElementById('statHadir').innerText = totalHadir;
+            document.getElementById('statSakit').innerText = totalSakit;
+            document.getElementById('statIzin').innerText = totalIzin;
+            document.getElementById('statAlpa').innerText = totalAlpa;
+        }
+
+        function updateTeacherMessage() {
+            const newMsg = document.getElementById('inputTeacherMessage').value.trim();
+            if (newMsg) {
+                teacherMessage = newMsg;
+                localStorage.setItem('sd_teacher_msg_nabang', teacherMessage);
+                document.getElementById('teacherMessageText').innerText = `"${teacherMessage}"`;
+                alertModal("✅ Pesan Pak Winarso berhasil diperbarui!");
+            }
+        }
+
+        function deleteRecord(id) {
+            attendanceRecords = attendanceRecords.filter(r => r.id !== id);
+            localStorage.setItem('sd_absensi_records_nabang', JSON.stringify(attendanceRecords));
+            renderAttendanceTable();
+            updateStats();
+        }
+
+        function resetData() {
+            if (attendanceRecords.length === 0) return;
+            attendanceRecords = [];
+            localStorage.removeItem('sd_absensi_records_nabang');
+            renderAttendanceTable();
+            updateStats();
+            alertModal("🧹 Seluruh data absensi telah di-reset.");
+        }
+
+        function exportToCSV() {
+            if (attendanceRecords.length === 0) {
+                alertModal("⚠️ Belum ada data absensi untuk diunduh!");
+                return;
+            }
+
+            let csvContent = "data:text/csv;charset=utf-8,Hari,Nama Siswa,Status,Kategori,Keterangan,Waktu\n";
+            attendanceRecords.forEach(r => {
+                csvContent += `"${r.day}","${r.studentName}","${r.status}","${r.category}","${r.note.replace(/"/g, '""')}","${r.time}"\n`;
+            });
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", `Rekap_Absensi_SDN2_Nabang_Baru_${new Date().toISOString().slice(0,10)}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function alertModal(msg) {
+            const modalBody = document.getElementById('modalBody');
+            modalBody.innerHTML = `
+                <div class="w-16 h-16 bg-red-100 text-sdRed-600 rounded-full flex items-center justify-center text-3xl mx-auto mb-2">
+                    🔔
+                </div>
+                <h3 class="heading-font text-lg font-bold text-gray-800">${msg}</h3>
+            `;
+            document.getElementById('feedbackModal').classList.remove('hidden');
+        }
+    </script>
+
+</body>
+</html>
